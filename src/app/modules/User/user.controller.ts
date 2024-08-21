@@ -13,7 +13,7 @@ const getProfile = catchAsync(async (req, res) => {
   });
 });
 const UpdateProfile = catchAsync(async (req, res) => {
-  const result = await UserServices.getProfileFromDB(req.user, req.body);
+  const result = await UserServices.updateProfileIntoDB(req.user, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
