@@ -4,6 +4,7 @@ import { TUser } from "../User/user.interface";
 import { User } from "../User/user.model";
 import jwt from "jsonwebtoken";
 import config from "../../config";
+import { TUserLogin } from "./auth.interface";
 
 const createUserIntoDB = async (payload: TUser) => {
   const isUserExist = await User.findOne({ email: payload.email });
@@ -13,7 +14,7 @@ const createUserIntoDB = async (payload: TUser) => {
   const result = await User.create(payload);
   return result;
 };
-const loginUser = async (payload: TUser) => {
+const loginUser = async (payload: TUserLogin) => {
   const user = await User.findOne({ email: payload.email }).select(
     "+password -createdAt -updatedAt"
   );
@@ -25,6 +26,14 @@ const loginUser = async (payload: TUser) => {
   if (!(await User.isPasswordMatch(payload?.password, user?.password))) {
     throw new AppError(httpStatus.FORBIDDEN, "Password is incorrect");
   }
+  const userData = {
+    _id: user?._id,
+    name: user?.name,
+    email: user?.email,
+    phone: user?.phone,
+    address: user?.address,
+    role: user?.role,
+  };
   // create token and send to the client
   const jwtPayload = {
     email: user?.email,
@@ -38,7 +47,7 @@ const loginUser = async (payload: TUser) => {
   // const result = await User.create(payload);
   return {
     accessToken,
-    user,
+    userData,
   };
 };
 

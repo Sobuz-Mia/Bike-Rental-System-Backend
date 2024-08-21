@@ -1,33 +1,28 @@
-import { Request, Response } from "express";
-import { z } from "zod";
+import httpStatus from "http-status";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import { UserServices } from "./user.services";
 
-const createUser = async (req: Request, res: Response) => {
-  try {
-    res.status(201).json({
-      success: true,
-      message: "User registered successfully",
-    });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      res.status(400).json({
-        success: false,
-        message: "Validation error",
-        errors: err.errors.map((err) => ({
-          path: err.path.join("."),
-          message: err.message,
-        })),
-      });
-    } else {
-      if (err instanceof Error) {
-        res.status(400).json({
-          success: false,
-          message: err.message,
-        });
-      }
-    }
-  }
-};
+const getProfile = catchAsync(async (req, res) => {
+  const result = await UserServices.getProfileFromDB(req.user);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User profile retrieved successfully",
+    data: result,
+  });
+});
+const UpdateProfile = catchAsync(async (req, res) => {
+  const result = await UserServices.getProfileFromDB(req.user, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Profile updated successfully",
+    data: result,
+  });
+});
 
 export const UserControllers = {
-  createUser,
+  getProfile,
+  UpdateProfile,
 };
