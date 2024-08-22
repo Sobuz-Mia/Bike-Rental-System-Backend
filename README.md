@@ -1,8 +1,21 @@
-# Initial-setup-for-Backend
+# Bike Rental Reservation System Backend
 
 ## Description
 
-<P>It's an initial Backend setup using Express.js,Typescript and Mongoose   </p>
+<P>Welcome to the "Bike Rental Reservation System" project. This is a robust backend application designed to manage bike rentals efficiently </p>
+
+# Some key features:-
+
+- User Authentication & Authorization.
+- Bike Management system using CRUD operations.
+- Automatically calculates <b> Rental Costs </b> based on duration and bike type
+- Error Handling & Data Validation
+
+# Techniques I used:-
+
+- TypeScript
+- Node.js & Express.js
+- MongoDB with mongoose
 
 ## Introductory material
 
@@ -51,8 +64,12 @@ npm run start:prod
 Create a `.env` file in the root directory and add the following environment variables:
 
 ```
-PORT:5000
+NODE_ENV=your_mode_like "development | production"
+PORT=5000
 DATABASE_URL=<Your mongoDB_connection_url_string>
+BCRYPT_SALT_ROUNDS=10
+JWT_ACCESS_TOKEN_SECRET=a857c0e7f3f23f8d3b0d5197f30e8b51c04407088bd35a3c3a84afea21ff3af9
+
 ```
 
 Replace `<your_mongoDB_connections_url>` with the connecting string for your database.
