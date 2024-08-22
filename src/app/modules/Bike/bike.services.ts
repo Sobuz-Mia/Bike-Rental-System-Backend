@@ -36,7 +36,7 @@ const deleteBikeFromDB = async (id: string) => {
     },
     {
       new: true,
-    }
+    },
   );
   return result;
 };

@@ -10,7 +10,7 @@ router.post(
   "/",
   auth("admin"),
   validateRequest(BikeValidation.createBikeValidation),
-  BikeController.createBike
+  BikeController.createBike,
 );
 router.get("/", BikeController.getAllBike);
 router.delete("/:id", BikeController.deleteBike);
@@ -18,7 +18,7 @@ router.put(
   "/:id",
   auth("admin"),
   validateRequest(BikeValidation.updateBikeValidation),
-  BikeController.updateBike
+  BikeController.updateBike,
 );
 
 export const BikeRoutes = router;

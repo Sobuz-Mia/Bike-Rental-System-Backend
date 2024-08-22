@@ -9,12 +9,12 @@ const getProfileFromDB = async (payload: JwtPayload) => {
 
 const updateProfileIntoDB = async (
   payload: JwtPayload,
-  userData: Partial<TUser>
+  userData: Partial<TUser>,
 ) => {
   const result = await User.findOneAndUpdate(
     { email: payload.email },
     userData,
-    { new: true }
+    { new: true },
   ).select("-createdAt -updatedAt -__v");
   return result;
 };

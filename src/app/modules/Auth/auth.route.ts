@@ -9,12 +9,12 @@ const router = Router();
 router.post(
   "/signup",
   validateRequest(userValidations.createUserValidationSchema),
-  AuthControllers.createUser
+  AuthControllers.createUser,
 );
 router.post(
   "/login",
   validateRequest(LoginValidation.loginValidation),
-  AuthControllers.loginUser
+  AuthControllers.loginUser,
 );
 
 export const AuthRoutes = router;

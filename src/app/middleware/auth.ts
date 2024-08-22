@@ -14,13 +14,13 @@ const auth = (...requiredRole: TUserRole[]) => {
     if (!token) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
-        "You have no access to this route"
+        "You have no access to this route",
       );
     }
     // checking the token is valid
     const decoded = jwt.verify(
       token,
-      config.jwt_access_token_secret as string
+      config.jwt_access_token_secret as string,
     ) as JwtPayload;
     const { email, role } = decoded;
     const user = await User.findOne({ email });
@@ -31,7 +31,7 @@ const auth = (...requiredRole: TUserRole[]) => {
     if (requiredRole && !requiredRole.includes(role)) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
-        "You have no access to this route"
+        "You have no access to this route",
       );
     }
     req.user = decoded as JwtPayload;

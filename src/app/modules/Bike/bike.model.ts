@@ -54,7 +54,7 @@ bikeSchema.pre("save", async function (next) {
     if (isBikeExist) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
-        `The ${this.name} is already exist`
+        `The ${this.name} is already exist`,
       );
     }
   }

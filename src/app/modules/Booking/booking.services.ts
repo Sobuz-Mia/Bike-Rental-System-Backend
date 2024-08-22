@@ -8,7 +8,7 @@ import { Booking } from "./booking.model";
 
 const createRentalIntoDB = async (
   payload: TBooking,
-  jwtPayload: JwtPayload
+  jwtPayload: JwtPayload,
 ) => {
   // checking is user exist
   const isUserExist = await User.findById(jwtPayload?.userId);
@@ -24,7 +24,7 @@ const createRentalIntoDB = async (
   if (isBikeExist.isAvailable === false) {
     throw new AppError(
       httpStatus.NOT_FOUND,
-      "This Bike is not available right now!"
+      "This Bike is not available right now!",
     );
   }
   //   set userId from jwt payload
@@ -51,7 +51,7 @@ const returnBikeFromClientIntoDB = async (id: string) => {
   const currentTime: Date = new Date();
   const durationInHours = Math.ceil(
     (currentTime.getTime() - new Date(isBookingExist.startTime).getTime()) /
-      (1000 * 60 * 60)
+      (1000 * 60 * 60),
   );
   const totalCost = durationInHours * isBikeExist?.pricePerHour;
   isBookingExist.returnTime = currentTime;

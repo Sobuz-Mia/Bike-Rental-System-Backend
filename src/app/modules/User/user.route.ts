@@ -11,7 +11,7 @@ router.put(
   "/me",
   auth("user"),
   validateRequest(userValidations.updateValidationSchema),
-  UserControllers.UpdateProfile
+  UserControllers.UpdateProfile,
 );
 
 export const UserRoutes = router;

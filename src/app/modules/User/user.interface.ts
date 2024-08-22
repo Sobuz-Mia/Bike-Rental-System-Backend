@@ -13,7 +13,7 @@ export interface TUser {
 export interface UserModel extends Model<TUser> {
   isPasswordMatch(
     planTextPassword: string,
-    hashedPassword: string
+    hashedPassword: string,
   ): Promise<boolean>;
 }
 

@@ -10,13 +10,13 @@ router.post(
   "/",
   auth("user"),
   validateRequest(BikeRentalValidation.createBikeRentalValidationSchema),
-  BookingController.createRental
+  BookingController.createRental,
 );
 router.get("/", auth("user"), BookingController.getAllRentals);
 router.put(
   "/:id/return",
   auth("admin"),
-  BookingController.returnBikeFromClient
+  BookingController.returnBikeFromClient,
 );
 
 export const BookingRoutes = router;
