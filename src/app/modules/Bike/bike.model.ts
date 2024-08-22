@@ -38,23 +38,25 @@ const bikeSchema = new Schema<TBike, BikeModel>({
   },
 });
 
+// bikeSchema.pre("save", async function (next) {
+//   const isBikeExist = await Bikes.findOne({ name: this.name });
+//   if (isBikeExist) {
+//     throw new AppError(
+//       httpStatus.BAD_REQUEST,
+//       `The ${this.name} is already exist`
+//     );
+//   }
+//   next();
+// });
 bikeSchema.pre("save", async function (next) {
-  const isBikeExist = await Bikes.findOne({ name: this.name });
-  if (isBikeExist) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      `The ${this.name} is already exist`
-    );
-  }
-  next();
-});
-bikeSchema.pre("save", async function (next) {
-  const isBikeExist = await Bikes.findOne({ name: this.name });
-  if (isBikeExist) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      `The ${this.name} is already exist`
-    );
+  if (this.isNew) {
+    const isBikeExist = await Bikes.findOne({ name: this.name });
+    if (isBikeExist) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        `The ${this.name} is already exist`
+      );
+    }
   }
   next();
 });

@@ -12,7 +12,10 @@ const auth = (...requiredRole: TUserRole[]) => {
     const token = req.headers.authorization;
     // checking the token is send from client
     if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "You  are not authorized");
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        "You have no access to this route"
+      );
     }
     // checking the token is valid
     const decoded = jwt.verify(
@@ -26,7 +29,10 @@ const auth = (...requiredRole: TUserRole[]) => {
     }
     // checking role
     if (requiredRole && !requiredRole.includes(role)) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized");
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        "You have no access to this route"
+      );
     }
     req.user = decoded as JwtPayload;
     next();
