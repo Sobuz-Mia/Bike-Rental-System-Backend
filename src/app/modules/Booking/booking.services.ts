@@ -53,7 +53,7 @@ const returnBikeFromClientIntoDB = async (id: string) => {
     (currentTime.getTime() - new Date(isBookingExist.startTime).getTime()) /
       (1000 * 60 * 60)
   );
-  const totalCost = durationInHours * 15;
+  const totalCost = durationInHours * isBikeExist?.pricePerHour;
   isBookingExist.returnTime = currentTime;
   isBookingExist.totalCost = totalCost;
   isBookingExist.isReturned = true;
