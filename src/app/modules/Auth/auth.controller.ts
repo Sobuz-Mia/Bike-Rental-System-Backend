@@ -2,6 +2,7 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 import { AuthServices } from "./auth.services";
+import config from "../../config";
 const createUser = catchAsync(async (req, res) => {
   const result = await AuthServices.createUserIntoDB(req.body);
   sendResponse(res, {
@@ -12,17 +13,33 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 const loginUser = catchAsync(async (req, res) => {
-  const result = await AuthServices.loginUser(req.body);
+  const { refreshToken, accessToken, userData } = await AuthServices.loginUser(
+    req.body
+  );
+  res.cookie("refreshToken", refreshToken, {
+    secure: config.NODE_ENV === "production",
+    httpOnly: true,
+  });
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
     message: "User logged in successfully",
-    token: result.accessToken,
-    data: result?.userData,
+    data: { accessToken, userData },
+  });
+});
+const refreshToken = catchAsync(async (req, res) => {
+  const { refreshToken } = req.cookies;
+  const result = await AuthServices.refreshToken(refreshToken);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Refresh Token generated successfully",
+    data: result,
   });
 });
 
 export const AuthControllers = {
   createUser,
   loginUser,
+  refreshToken,
 };

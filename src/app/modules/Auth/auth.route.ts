@@ -9,12 +9,17 @@ const router = Router();
 router.post(
   "/signup",
   validateRequest(userValidations.createUserValidationSchema),
-  AuthControllers.createUser,
+  AuthControllers.createUser
 );
 router.post(
   "/login",
   validateRequest(LoginValidation.loginValidation),
-  AuthControllers.loginUser,
+  AuthControllers.loginUser
 );
 
+router.post(
+  "/refresh-token",
+  validateRequest(LoginValidation.refreshTokenValidationSchema),
+  AuthControllers.refreshToken
+);
 export const AuthRoutes = router;
