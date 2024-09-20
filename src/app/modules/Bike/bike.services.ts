@@ -9,10 +9,21 @@ const createBikeIntoDB = async (payload: TBike) => {
 };
 
 const getAllBikeFromDB = async () => {
-  const result = await Bikes.find();
+  const result = await Bikes.find({ isAvailable: true });
   return result;
 };
 
+const getSingleBikeFromDB = async (id: string) => {
+  const bike = await Bikes.isBikeExist(id);
+  if (!bike) {
+    throw new AppError(httpStatus.NOT_FOUND, "This bike not found");
+  }
+  if (bike.isAvailable === false) {
+    throw new AppError(httpStatus.NOT_FOUND, "This item already deleted");
+  }
+  const result = await Bikes.findById(id);
+  return result;
+};
 const updateBikeIntoDB = async (id: string, payload: Partial<TBike>) => {
   if (!(await Bikes.isBikeExist(id))) {
     throw new AppError(httpStatus.NOT_FOUND, "This item not found");
@@ -36,12 +47,13 @@ const deleteBikeFromDB = async (id: string) => {
     },
     {
       new: true,
-    },
+    }
   );
   return result;
 };
 
 export const BikeServices = {
+  getSingleBikeFromDB,
   createBikeIntoDB,
   getAllBikeFromDB,
   updateBikeIntoDB,
