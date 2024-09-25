@@ -30,12 +30,17 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     role: {
       type: String,
+      default: "user",
       enum: ["admin", "user"],
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
     },
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 // password hashed using pre hooks
@@ -44,7 +49,7 @@ userSchema.pre("save", async function (next) {
   const user = this;
   user.password = await bcrypt.hash(
     user.password,
-    Number(config.bcrypt_salt_rounds),
+    Number(config.bcrypt_salt_rounds)
   );
   next();
 });
@@ -55,7 +60,7 @@ userSchema.post("save", function (doc, next) {
 });
 userSchema.statics.isPasswordMatch = async function (
   planTextPassword,
-  hashedPassword,
+  hashedPassword
 ) {
   return await bcrypt.compare(planTextPassword, hashedPassword);
 };

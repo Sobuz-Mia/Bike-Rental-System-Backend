@@ -7,7 +7,8 @@ const createUserValidationSchema = z.object({
     password: z.string(),
     phone: z.string(),
     address: z.string(),
-    role: z.enum(["admin", "user"]),
+    role: z.enum(["admin", "user"]).optional(),
+    isDeleted: z.boolean().optional(),
   }),
 });
 
@@ -19,6 +20,7 @@ const updateValidationSchema = z.object({
     phone: z.string().optional(),
     address: z.string().optional(),
     role: z.enum(["admin", "user"]).optional(),
+    isDeleted: z.boolean().optional(),
   }),
 });
 
